@@ -1,0 +1,8 @@
+{
+  "name": "compress-unlock-app",
+  "version": "1.0.0",
+  "description": "Ad unlock system",
+  "dependencies": {
+    "mongodb": "^6.6.0"
+  }
+}
