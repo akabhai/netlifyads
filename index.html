@@ -1,111 +1,270 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<title>Unlock Compression</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Unlock Compression</title>
 
-<style>
-body{
-font-family:Arial;
-background:#111;
-color:white;
-text-align:center;
-padding-top:80px;
-}
+    <!-- Telegram WebApp SDK -->
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    
+    <!-- YOUR AD SDK -->
+    <script src="//libtl.com/sdk.js" data-zone="10712606" data-sdk="show_10712606"></script>
 
-.box{
-background:#1c1c1c;
-padding:40px;
-border-radius:10px;
-display:inline-block;
-}
+    <style>
+        /* Automatically adapt to Telegram's Native Theme (Light/Dark) */
+        :root {
+            --bg-color: var(--tg-theme-bg-color, #0f172a);
+            --text-color: var(--tg-theme-text-color, #ffffff);
+            --hint-color: var(--tg-theme-hint-color, #94a3b8);
+            --card-bg: var(--tg-theme-secondary-bg-color, #1e293b);
+            --btn-color: var(--tg-theme-button-color, #22c55e);
+            --btn-text: var(--tg-theme-button-text-color, #ffffff);
+        }
 
-button{
-padding:15px 30px;
-font-size:18px;
-border:none;
-border-radius:8px;
-background:#00c853;
-color:white;
-cursor:pointer;
-margin-top:20px;
-}
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        }
 
-button:disabled{
-background:gray;
-}
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
 
-</style>
+        .container {
+            width: 100%;
+            max-width: 400px;
+            background-color: var(--card-bg);
+            padding: 30px 25px;
+            border-radius: 20px;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            animation: fadeIn 0.5s ease-out;
+        }
+
+        .icon {
+            font-size: 50px;
+            margin-bottom: 10px;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        h1 {
+            font-size: 24px;
+            margin-bottom: 8px;
+            font-weight: 700;
+        }
+
+        p {
+            color: var(--hint-color);
+            font-size: 15px;
+            margin-bottom: 25px;
+            line-height: 1.5;
+        }
+
+        /* Animated Progress Bar */
+        .progress-wrapper {
+            width: 100%;
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 10px;
+            height: 12px;
+            margin-bottom: 10px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .progress-fill {
+            height: 100%;
+            width: 0%;
+            background: linear-gradient(90deg, #3b82f6, #10b981);
+            border-radius: 10px;
+            transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .progress-text {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--text-color);
+            margin-bottom: 20px;
+        }
+
+        .btn {
+            width: 100%;
+            padding: 16px;
+            border: none;
+            border-radius: 14px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            background-color: var(--btn-color);
+            color: var(--btn-text);
+            transition: all 0.2s ease;
+            box-shadow: 0 4px 15px rgba(34, 197, 94, 0.3);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn:active {
+            transform: scale(0.96);
+        }
+
+        .btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            box-shadow: none;
+        }
+
+        .success {
+            color: #10b981;
+            margin-top: 20px;
+            font-weight: bold;
+            font-size: 15px;
+            display: none;
+            animation: fadeIn 0.5s ease-out;
+            padding: 10px;
+            background: rgba(16, 185, 129, 0.1);
+            border-radius: 10px;
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+            100% { transform: translateY(0px); }
+        }
+    </style>
 </head>
 
 <body>
 
-<div class="box">
+<div class="container">
+    <div class="icon">🔓</div>
+    <h1>Unlock Compression</h1>
+    <p>Watch 3 short ads to activate <b>6 hours</b> of unlimited, high-speed video compression.</p>
 
-<h2>Unlock Video Compression</h2>
+    <!-- Visual Progress Bar -->
+    <div class="progress-wrapper">
+        <div class="progress-fill" id="progressFill"></div>
+    </div>
+    <div class="progress-text" id="progressText">Ads watched: 0 / 3</div>
 
-<p>Watch <b>3 ads</b> to unlock <b>6 hours unlimited compression</b></p>
+    <button class="btn" id="adBtn" onclick="watchAd()">▶ Watch Ad</button>
 
-<p id="status">Ads Remaining: 3</p>
-
-<button id="watchAd">Watch Ad</button>
-
+    <div class="success" id="successMsg">
+        🎉 Success! Compression unlocked for 6 hours. You can safely close this window.
+    </div>
 </div>
 
-<script src="//libtl.com/sdk.js" data-zone="10712606" data-sdk="show_10712606"></script>
-
 <script>
+    // Initialize Telegram WebApp
+    const tg = window.Telegram.WebApp;
+    tg.expand();
+    tg.ready();
 
-let user_id = new URLSearchParams(window.location.search).get("user_id")
+    // Setup Theme colors for Telegram Main Button to match App
+    tg.MainButton.color = tg.themeParams.button_color || "#22c55e";
+    tg.MainButton.textColor = tg.themeParams.button_text_color || "#ffffff";
 
-let adsRemaining = 3
+    const params = new URLSearchParams(window.location.search);
+    const user_id = params.get("user_id");
 
-const btn = document.getElementById("watchAd")
-const status = document.getElementById("status")
+    let adsWatched = 0;
+    const totalAds = 3;
+    const btn = document.getElementById("adBtn");
+    const progressFill = document.getElementById("progressFill");
+    const progressText = document.getElementById("progressText");
+    const successMsg = document.getElementById("successMsg");
 
-async function grantUnlock(){
+    function watchAd() {
+        if (!user_id) {
+            alert("Error: Missing User ID. Please open this from the Telegram Bot.");
+            return;
+        }
 
-let res = await fetch("/.netlify/functions/unlock",{
-method:"POST",
-headers:{
-"Content-Type":"application/json"
-},
-body:JSON.stringify({user_id:user_id})
-})
+        // Disable button to prevent spam clicks while loading
+        btn.disabled = true;
+        btn.innerHTML = "⏳ Loading Ad...";
 
-let data = await res.json()
+        // Check if the Ad SDK loaded properly
+        if (typeof show_10712606 === "function") {
+            
+            // Trigger the Ad
+            show_10712606().then(() => {
+                // This executes ONLY if the user successfully watches the ad
+                adsWatched++;
+                updateProgress();
 
-if(data.success){
-status.innerHTML="✅ Compression unlocked for 6 hours! Return to Telegram."
-btn.disabled=true
-}else{
-alert("❌ Unlock failed")
-}
+                if (adsWatched >= totalAds) {
+                    btn.style.display = 'none'; // Hide button when done
+                    unlockUser();
+                } else {
+                    btn.disabled = false;
+                    btn.innerHTML = "▶ Watch Next Ad";
+                }
+            }).catch((err) => {
+                // Executes if Ad gets blocked, fails to load, or user closes it early
+                console.error("Ad Error:", err);
+                alert("The ad was closed early or failed to load. Please try again.");
+                btn.disabled = false;
+                btn.innerHTML = "▶ Watch Ad";
+            });
 
-}
+        } else {
+            alert("Ad blocker detected! Please disable it to unlock compression.");
+            btn.disabled = false;
+            btn.innerHTML = "▶ Watch Ad";
+        }
+    }
 
-btn.onclick = async ()=>{
+    function updateProgress() {
+        // Update text
+        progressText.innerText = `Ads watched: ${adsWatched} / ${totalAds}`;
+        // Update visual bar width
+        const percentage = (adsWatched / totalAds) * 100;
+        progressFill.style.width = percentage + "%";
+    }
 
-try{
+    function unlockUser() {
+        progressText.innerText = "⏳ Unlocking server access...";
+        
+        // Ping your Netlify Backend
+        fetch("/.netlify/functions/unlock?user_id=" + user_id)
+            .then(res => res.json())
+            .then(data => {
+                // Show Success UI
+                progressText.innerText = "✅ Unlocked Successfully!";
+                successMsg.style.display = "block";
 
-await show_10712606()
-
-adsRemaining--
-
-if(adsRemaining>0){
-status.innerHTML="Ads Remaining: "+adsRemaining
-}
-else{
-status.innerHTML="Processing unlock..."
-grantUnlock()
-}
-
-}catch(e){
-alert("Ad failed to load. Try again.")
-}
-
-}
-
+                // Setup Telegram Native Main Button to close the app
+                tg.MainButton.setText("RETURN TO BOT");
+                tg.MainButton.show();
+                tg.MainButton.onClick(() => {
+                    tg.close();
+                });
+            })
+            .catch(err => {
+                console.error("Server Error:", err);
+                alert("Failed to connect to the server. Please check your internet connection and try again.");
+                btn.style.display = 'flex';
+                btn.disabled = false;
+                btn.innerHTML = "🔄 Retry Unlock";
+            });
+    }
 </script>
 
 </body>
