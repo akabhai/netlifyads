@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Unlock Compression</title>
+
+<style>
+body{
+font-family:Arial;
+background:#111;
+color:white;
+text-align:center;
+padding-top:80px;
+}
+
+.box{
+background:#1c1c1c;
+padding:40px;
+border-radius:10px;
+display:inline-block;
+}
+
+button{
+padding:15px 30px;
+font-size:18px;
+border:none;
+border-radius:8px;
+background:#00c853;
+color:white;
+cursor:pointer;
+margin-top:20px;
+}
+
+button:disabled{
+background:gray;
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="box">
+
+<h2>Unlock Video Compression</h2>
+
+<p>Watch <b>3 ads</b> to unlock <b>6 hours unlimited compression</b></p>
+
+<p id="status">Ads Remaining: 3</p>
+
+<button id="watchAd">Watch Ad</button>
+
+</div>
+
+<script src="//libtl.com/sdk.js" data-zone="10712606" data-sdk="show_10712606"></script>
+
+<script>
+
+let user_id = new URLSearchParams(window.location.search).get("user_id")
+
+let adsRemaining = 3
+
+const btn = document.getElementById("watchAd")
+const status = document.getElementById("status")
+
+async function grantUnlock(){
+
+let res = await fetch("/.netlify/functions/unlock",{
+method:"POST",
+headers:{
+"Content-Type":"application/json"
+},
+body:JSON.stringify({user_id:user_id})
+})
+
+let data = await res.json()
+
+if(data.success){
+status.innerHTML="✅ Compression unlocked for 6 hours! Return to Telegram."
+btn.disabled=true
+}else{
+alert("❌ Unlock failed")
+}
+
+}
+
+btn.onclick = async ()=>{
+
+try{
+
+await show_10712606()
+
+adsRemaining--
+
+if(adsRemaining>0){
+status.innerHTML="Ads Remaining: "+adsRemaining
+}
+else{
+status.innerHTML="Processing unlock..."
+grantUnlock()
+}
+
+}catch(e){
+alert("Ad failed to load. Try again.")
+}
+
+}
+
+</script>
+
+</body>
+</html>
