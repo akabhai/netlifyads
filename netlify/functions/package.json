@@ -1,7 +1,7 @@
 {
-  "name": "compress-unlock-app",
+  "name": "telegram-compression-unlock",
   "version": "1.0.0",
-  "description": "Ad unlock system",
+  "private": true,
   "dependencies": {
     "mongodb": "^6.6.0"
   }
