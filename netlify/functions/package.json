@@ -1,8 +1,0 @@
-{
-  "name": "telegram-compression-unlock",
-  "version": "1.0.0",
-  "private": true,
-  "dependencies": {
-    "mongodb": "^6.6.0"
-  }
-}
