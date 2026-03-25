@@ -3,10 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Unlock Compression</title>
+    <title>Unlock Access</title>
 
+    <!-- Telegram WebApp SDK -->
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
-    <script src="//libtl.com/sdk.js" data-zone="10712606" data-sdk="show_10712606"></script>
 
     <style>
         :root {
@@ -14,40 +14,120 @@
             --text-color: var(--tg-theme-text-color, #ffffff);
             --hint-color: var(--tg-theme-hint-color, #94a3b8);
             --card-bg: var(--tg-theme-secondary-bg-color, #1e293b);
-            --btn-color: var(--tg-theme-button-color, #22c55e);
+            --btn-color: var(--tg-theme-button-color, #3b82f6);
             --btn-text: var(--tg-theme-button-text-color, #ffffff);
         }
-        * { box-sizing: border-box; margin: 0; padding: 0; font-family: sans-serif; }
-        body { background: var(--bg-color); color: var(--text-color); display: flex; justify-content: center; align-items: center; min-height: 100vh; padding: 20px; }
-        .container { width: 100%; max-width: 400px; background: var(--card-bg); padding: 30px 25px; border-radius: 20px; text-align: center; box-shadow: 0 10px 30px rgba(0,0,0,0.2); }
-        .icon { font-size: 50px; margin-bottom: 10px; animation: float 3s ease-in-out infinite; }
-        h1 { font-size: 24px; margin-bottom: 8px; font-weight: 700; }
-        p { color: var(--hint-color); font-size: 15px; margin-bottom: 25px; line-height: 1.5; }
-        .progress-wrapper { width: 100%; background: rgba(0,0,0,0.2); border-radius: 10px; height: 12px; margin-bottom: 10px; overflow: hidden; }
-        .progress-fill { height: 100%; width: 0%; background: linear-gradient(90deg, #3b82f6, #10b981); border-radius: 10px; transition: width 0.5s ease; }
-        .progress-text { font-size: 14px; font-weight: 600; margin-bottom: 20px; }
-        .btn { width: 100%; padding: 16px; border: none; border-radius: 14px; font-size: 16px; font-weight: 600; cursor: pointer; background: var(--btn-color); color: var(--btn-text); transition: 0.2s; }
-        .btn:active { transform: scale(0.96); }
-        .btn:disabled { opacity: 0.6; cursor: not-allowed; }
-        .success { color: #10b981; margin-top: 20px; font-weight: bold; font-size: 15px; display: none; padding: 10px; background: rgba(16,185,129,0.1); border-radius: 10px; }
-        @keyframes float { 0%, 100% { transform: translateY(0px); } 50% { transform: translateY(-10px); } }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, sans-serif; }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 400px;
+            background-color: var(--card-bg);
+            padding: 30px 25px;
+            border-radius: 20px;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .icon { font-size: 50px; margin-bottom: 15px; }
+
+        h1 { font-size: 22px; margin-bottom: 10px; font-weight: 700; }
+
+        .instruction {
+            background: rgba(59, 130, 246, 0.1);
+            color: #60a5fa;
+            padding: 12px;
+            border-radius: 12px;
+            font-size: 14px;
+            margin-bottom: 20px;
+            line-height: 1.4;
+            border: 1px dashed #3b82f6;
+        }
+
+        .progress-wrapper {
+            width: 100%;
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 10px;
+            height: 10px;
+            margin-bottom: 10px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            width: 0%;
+            background: linear-gradient(90deg, #3b82f6, #8b5cf6);
+            transition: width 0.4s ease;
+        }
+
+        .step-text {
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 25px;
+            color: var(--hint-color);
+        }
+
+        .btn {
+            width: 100%;
+            padding: 16px;
+            border: none;
+            border-radius: 14px;
+            font-size: 16px;
+            font-weight: 700;
+            cursor: pointer;
+            background-color: var(--btn-color);
+            color: var(--btn-text);
+            transition: 0.2s;
+            box-shadow: 0 4px 15px rgba(59, 130, 246, 0.3);
+        }
+
+        .btn:active { transform: scale(0.97); }
+        .btn:disabled { opacity: 0.5; cursor: not-allowed; }
+
+        .success {
+            color: #10b981;
+            margin-top: 20px;
+            font-weight: bold;
+            display: none;
+            padding: 15px;
+            background: rgba(16, 185, 129, 0.1);
+            border-radius: 12px;
+        }
     </style>
 </head>
 <body>
 
 <div class="container">
     <div class="icon">🔓</div>
-    <h1>Unlock Compression</h1>
-    <p>Watch 3 short ads to activate <b>6 hours</b> of unlimited compression.</p>
+    <h1>Verify Access</h1>
+    
+    <div class="instruction">
+        Click the button below and you will be redirected to our sponsor site. 
+        <b>Wait for the page to load, then press BACK to return here.</b>
+    </div>
 
     <div class="progress-wrapper">
         <div class="progress-fill" id="progressFill"></div>
     </div>
-    <div class="progress-text" id="progressText">Ads watched: 0 / 3</div>
+    <div id="stepCounter" class="step-text">Steps Completed: 0 / 4</div>
 
-    <button class="btn" id="adBtn" onclick="watchAd()">▶ Watch Ad</button>
+    <button class="btn" id="actionBtn" onclick="handleVisit()">🚀 VISIT SPONSOR</button>
 
-    <div class="success" id="successMsg">🎉 Compression unlocked! Return to the bot.</div>
+    <div class="success" id="successMsg">
+        ✅ <b>Success!</b> Compression Unlocked.<br>Return to the bot now.
+    </div>
 </div>
 
 <script>
@@ -55,83 +135,75 @@
     tg.expand();
     tg.ready();
 
-    tg.MainButton.color = tg.themeParams.button_color || "#22c55e";
-    tg.MainButton.textColor = tg.themeParams.button_text_color || "#ffffff";
-
+    const sponsorLink = "https://omg10.com/4/10784326";
     const params = new URLSearchParams(window.location.search);
     const user_id = params.get("user_id");
 
-    let adsWatched = 0;
-    const totalAds = 3;
-    const btn = document.getElementById("adBtn");
+    let currentStep = 0;
+    const totalSteps = 4;
+
+    const btn = document.getElementById("actionBtn");
     const progressFill = document.getElementById("progressFill");
-    const progressText = document.getElementById("progressText");
+    const stepCounter = document.getElementById("stepCounter");
     const successMsg = document.getElementById("successMsg");
 
-    function watchAd() {
-        if (!user_id) return alert("Error: Missing User ID.");
+    function handleVisit() {
+        if (!user_id) return alert("Error: User ID missing.");
 
-        btn.disabled = true;
-        btn.innerHTML = "⏳ Loading Ad...";
+        // Open the sponsor link in Telegram's browser
+        tg.openLink(sponsorLink);
 
-        if (typeof show_10712606 === "function") {
-            show_10712606().then(() => {
-                adsWatched++;
-                updateProgress();
+        // Update progress
+        currentStep++;
+        updateUI();
 
-                if (adsWatched >= totalAds) {
-                    btn.style.display = 'none';
-                    unlockUser();
-                } else {
-                    btn.disabled = false;
-                    btn.innerHTML = "▶ Watch Next Ad";
-                }
-            }).catch((err) => {
-                console.error("Ad Error:", err);
-                btn.disabled = false;
-                btn.innerHTML = "▶ Watch Ad";
-            });
+        // Check if finished
+        if (currentStep >= totalSteps) {
+            btn.disabled = true;
+            btn.innerHTML = "⌛ Verifying...";
+            unlockUser();
         } else {
-            alert("Ad blocker detected! Please disable it.");
-            btn.disabled = false;
-            btn.innerHTML = "▶ Watch Ad";
+            // Temporary "wait" state to prevent fast-clicking without visiting
+            btn.disabled = true;
+            btn.innerHTML = "⏳ Wait 5s...";
+            setTimeout(() => {
+                btn.disabled = false;
+                btn.innerHTML = `🚀 VISIT SPONSOR (Step ${currentStep + 1})`;
+            }, 5000);
         }
     }
 
-    function updateProgress() {
-        progressText.innerText = `Ads watched: ${adsWatched} / ${totalAds}`;
-        progressFill.style.width = ((adsWatched / totalAds) * 100) + "%";
+    function updateUI() {
+        const percent = (currentStep / totalSteps) * 100;
+        progressFill.style.width = percent + "%";
+        stepCounter.innerHTML = `Steps Completed: ${currentStep} / ${totalSteps}`;
     }
 
     function unlockUser() {
-        progressText.innerText = "⏳ Unlocking server access...";
-        
-        // 🔴 CRITICAL FIX: Absolute URL to your Netlify function
         const apiUrl = `https://melodic-seahorse-c0330f.netlify.app/.netlify/functions/unlock?user_id=${user_id}`;
 
         fetch(apiUrl)
             .then(res => res.json())
             .then(data => {
-                // 🔴 CRITICAL FIX: Explicitly check for successful JSON response
-                if(data.status !== "ok") {
-                    throw new Error(data.message || "Unlock failed on server");
+                if (data.status === "ok") {
+                    btn.style.display = "none";
+                    successMsg.style.display = "block";
+                    stepCounter.innerText = "✅ Verification Complete!";
+                    
+                    tg.MainButton.setText("RETURN TO BOT");
+                    tg.MainButton.show();
+                    tg.MainButton.onClick(() => tg.close());
+                } else {
+                    throw new Error("Server rejected unlock");
                 }
-
-                progressText.innerText = "✅ Unlocked Successfully!";
-                successMsg.style.display = "block";
-
-                tg.MainButton.setText("RETURN TO BOT");
-                tg.MainButton.show();
-                tg.MainButton.onClick(() => tg.close());
             })
             .catch(err => {
-                console.error("Server Error:", err);
-                alert("Failed to unlock compression. Please try again.");
-                btn.style.display = 'flex';
+                alert("Server error. Please try again.");
                 btn.disabled = false;
-                btn.innerHTML = "🔄 Retry Unlock";
+                btn.innerHTML = "🔄 RETRY UNLOCK";
             });
     }
 </script>
+
 </body>
 </html>
